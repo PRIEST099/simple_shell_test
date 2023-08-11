@@ -86,6 +86,8 @@ int main(int ac, char **av, char **en)
 			}
 			args = (char **)malloc(sizeof(char *) * (counter + 1));
 
+			cmdcpy = strdup(command);
+
 
 			helper = strtok(command, " \n");
 			i = 0;
