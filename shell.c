@@ -61,7 +61,7 @@ int main(int ac, char **av, char **en)
 
 		if (command[len - 1] == '\n')
 			command[len - 1] = '\0';
-		full-path = checkdir(command);
+		full_path = checkdir(command);
 		if (full_path == NULL)
 		{
 			perror("./shell");
