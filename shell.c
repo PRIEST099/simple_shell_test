@@ -5,32 +5,48 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+char *checkdir(char *c) {
+    char *path = getenv("PATH");
+    if (path == NULL) {
+        printf("PATH environment variable not found\n");  // debugging
+        return c;  // Return the original string on error
+    }
 
-char *checkdir(char *c)
-{
-        char *path = getenv("PATH");
-        char *token, *helper;
-        int total_length;
-        char *full_path = malloc(sizeof(char) * 256);
-        if (full_path == NULL)
-                return (NULL);
+    int c_length = strlen(c);
+    int path_length = strlen(path);
 
-        helper = strdup(path);
-        if (helper == NULL)
-                return (NULL);
+    // Calculate the maximum possible length for the full path
+    // considering the token and the command length
+    int max_path_length = path_length + c_length + 2;
 
-        token = strtok(helper, ":");
-        while (token != NULL)
-        {
-                snprintf(full_path, 256, "%s/%s", token, c);
-                if (access(full_path, X_OK) == 0)
-                {
-                        return (full_path);
-                }
-                token = strtok(NULL, ":");
+    char *full_path = malloc(sizeof(char) * max_path_length);
+    if (full_path == NULL) {
+        printf("Malloc error\n");  // debugging
+        return c;  // Return the original string on error
+    }
+
+    char *helper = strdup(path);
+    if (helper == NULL) {
+        free(full_path);
+        return c;  // Return the original string on error
+    }
+
+    char *token = strtok(helper, ":");
+    while (token != NULL) {
+        snprintf(full_path, max_path_length, "%s/%s", token, c);
+        printf("%s\n", full_path);  // debugging
+
+        if (access(full_path, X_OK) == 0) {
+            free(helper);
+            return full_path;  // Return the full path if the executable is found
         }
-        free(helper);
-        return (NULL);
+
+        token = strtok(NULL, ":");  // Get the next token
+    }
+
+    free(helper);
+    free(full_path);
+    return c;  // Return the original string if executable is not found in any directory
 }
 
 /**
@@ -61,17 +77,16 @@ int main(int ac, char **av, char **en)
 
 		if (command[len - 1] == '\n')
 			command[len - 1] = '\0';
+
+		if (strcmp(command, "exit") == 0)
+			break;
+
 		full_path = checkdir(command);
 		if (full_path == NULL)
 		{
+			printf("Error\n");
 			perror("./shell");
 			continue;
-		}
-		
-
-		if (strcmp(command, "exit") == 0)
-		{
-			break;
 		}
 		pid = fork();
 		if (pid == 0)
@@ -99,7 +114,7 @@ int main(int ac, char **av, char **en)
 			}
 			args[i] = NULL;
 
-			//printf("%s\n\n\n%s\n\n\n", args[0], env[0]);
+			//printf("%s\n\n\n%s\n\n\n%s\n\n\n", args[0], args[1], full_path);
 
 			execve(full_path, args, en);
 			perror("./shell");
