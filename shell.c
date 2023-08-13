@@ -1,130 +1,87 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
-char *checkdir(char *c) {
-    char *path = getenv("PATH");
-    if (path == NULL) {
-        printf("PATH environment variable not found\n");  // debugging
-        return c;  // Return the original string on error
-    }
-
-    int c_length = strlen(c);
-    int path_length = strlen(path);
-
-    // Calculate the maximum possible length for the full path
-    // considering the token and the command length
-    int max_path_length = path_length + c_length + 2;
-
-    char *full_path = malloc(sizeof(char) * max_path_length);
-    if (full_path == NULL) {
-        printf("Malloc error\n");  // debugging
-        return c;  // Return the original string on error
-    }
-
-    char *helper = strdup(path);
-    if (helper == NULL) {
-        free(full_path);
-        return c;  // Return the original string on error
-    }
-
-    char *token = strtok(helper, ":");
-    while (token != NULL) {
-        snprintf(full_path, max_path_length, "%s/%s", token, c);
-        printf("%s\n", full_path);  // debugging
-
-        if (access(full_path, X_OK) == 0) {
-            free(helper);
-            return full_path;  // Return the full path if the executable is found
-        }
-
-        token = strtok(NULL, ":");  // Get the next token
-    }
-
-    free(helper);
-    free(full_path);
-    return c;  // Return the original string if executable is not found in any directory
-}
-
-/**
- * main - a super simple shell to handle only programs
- * Return: 0 on success and 1 on failure
- */
-
-
+#include "main.h"
 
 int main(int ac, char **av, char **en)
 {
+	char *lineptr = NULL, *token, *cpy_lineptr, *fullpath;
+	size_t n = 0, length;
+	char *delim = " \n";
 	pid_t pid;
-	char *command = NULL, **args, *helper, *cmdcpy;
-	char *full_path;
-	size_t size = 0, len;
-	int counter = 0, i = 0;
+	char **argv;
+	int status = 0, i;
+	int counter = 0;
 
 
 	while (1)
 	{
 		printf("#cisfun$ ");
-		len = getline(&command, &size, stdin);
-		if (len == -1)
+		length = getline(&lineptr, &n, stdin);
+
+		if (length == -1)
 		{
 			printf("\n");
 			break;
 		}
+		if (length == 1)
+			continue;
 
-		if (command[len - 1] == '\n')
-			command[len - 1] = '\0';
-
-		if (strcmp(command, "exit") == 0)
+		if (lineptr[length - 1] == '\n')
+			lineptr[length - 1] = '\0';
+		if (strcmp(lineptr, "exit") == 0)
 			break;
 
-		full_path = checkdir(command);
-		if (full_path == NULL)
+		cpy_lineptr = strdup(lineptr);
+		if (cpy_lineptr == NULL)
+			perror("./shell");
+
+
+		token = strtok(cpy_lineptr, delim);
+		 while (token != NULL)
+		 {
+			 counter++;
+			 token = strtok(NULL, delim);
+		 }
+
+		argv = malloc(sizeof(char *) * (counter + 1));
+		if (argv == NULL)
 		{
-			printf("Error\n");
+			free(lineptr);
+			free(argv);
+			perror("./shell");
+			exit(1);
+		}
+
+		i = 0;
+		token = strtok(lineptr, delim);
+		while (token != NULL)
+		{
+			argv[i] = token;
+			i++;
+			token = strtok(NULL, delim);
+		}
+		argv[i] = NULL;
+		fullpath = pathname(en, lineptr, delim);
+		if (fullpath == NULL)
+		{
 			perror("./shell");
 			continue;
 		}
+
 		pid = fork();
 		if (pid == 0)
 		{
-			cmdcpy = strdup(command);
-			helper = strtok(cmdcpy, " \n");
-			counter = 0;
-			while(helper != NULL)
-			{
-				counter++;
-				helper = strtok(NULL, " \n");
-			}
-			args = (char **)malloc(sizeof(char *) * (counter + 1));
-
-			cmdcpy = strdup(command);
-
-
-			helper = strtok(command, " \n");
-			i = 0;
-			while (helper != NULL)
-			{
-				args[i] = helper;
-				i++;
-				helper = strtok(NULL, " \n");
-			}
-			args[i] = NULL;
-
-			//printf("%s\n\n\n%s\n\n\n%s\n\n\n", args[0], args[1], full_path);
-
-			execve(full_path, args, en);
+			execve(fullpath, argv, en);
 			perror("./shell");
-			exit(1);
 		}
 		else
 		{
 			wait(NULL);
 		}
+
+		free(argv);
+
 	}
-	free(command);
+
+	free(lineptr);
 	return (0);
+
 }
