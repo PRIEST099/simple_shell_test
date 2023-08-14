@@ -1,5 +1,10 @@
 #include "main.h"
 
+/*
+ * this function is the one which handles all logic
+ * and it's the one which is called in the main function
+ */
+
 void process_input(char *lineptr, char **en)
 {
     char *cpy_lineptr = strdup(lineptr);

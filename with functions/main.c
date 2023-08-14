@@ -1,5 +1,14 @@
 #include "main.h"
 
+/*
+ * this is the main program that uses all the other functions
+ *
+ * it is better to open the functions in different terminals to view how it works
+ *
+ * * NOTICE * how the memory allocations now is understandable
+ */
+
+
 int main(int ac, char **av, char **en)
 {
     char *lineptr = NULL;
@@ -27,7 +36,7 @@ int main(int ac, char **av, char **en)
 
     }
 
-    free(lineptr); // Free the main input buffer
+    free(lineptr);
     return 0;
 }
 

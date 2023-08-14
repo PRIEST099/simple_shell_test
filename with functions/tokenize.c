@@ -1,5 +1,8 @@
 #include "main.h"
 
+/*
+ * this fuction helps to find the number of input arguments
+ */
 int count_tokens(char *lineptr)
 {
     int counter = 0;
@@ -11,6 +14,11 @@ int count_tokens(char *lineptr)
     }
     return counter;
 }
+
+/*
+ * this function is used to tokenize lineptr
+ */
+
 
 char **tokenize_input(char *lineptr, int count)
 {

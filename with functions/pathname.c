@@ -34,7 +34,7 @@ char *pathname(char **en, char *lineptr, char *delim)
 
                 if (combine == NULL)
                 {
-                    free(copy); // Free the copied string
+                    free(copy); // Free the copied string if an error occurs
                     perror("./shell");
                     return NULL;
                 }
@@ -50,7 +50,10 @@ char *pathname(char **en, char *lineptr, char *delim)
                 else
                 {
                     free(combine); /* Free the allocated memory */
-                    combine = NULL;
+                    combine = NULL; /* and again assigning NULL to it so that if it is free at any point, 
+				       it does not cause double frees
+
+				       freeing a null string is valid */
                     token = strtok(NULL, delim2);
                 }
             }
