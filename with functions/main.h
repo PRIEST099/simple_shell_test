@@ -16,8 +16,8 @@ void execute_command(char **argv, char **en, char *fullpath);
 char *pathname(char **en, char *lineptr, char *delim);
 char *combine_path_token(const char *path, const char *token2);
 int check_path_access(const char *path);
-char *find_executable_path(char **en, const char *path_variable, const char *token2);
-
-
-#endif 
+char *find_executable_path(char **en,
+		const char *path_variable,
+		const char *token2);
+#endif
 

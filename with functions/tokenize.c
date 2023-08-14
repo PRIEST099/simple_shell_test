@@ -1,43 +1,53 @@
 #include "main.h"
 
-/*
- * this fuction helps to find the number of input arguments
+/**
+ * count_tokens - Counts the number of input arguments.
+ * @lineptr: The input string to be tokenized.
+ *
+ * Return: the number of tokens
  */
+
 int count_tokens(char *lineptr)
 {
-    int counter = 0;
-    char *token = strtok(lineptr, " \n");
-    while (token != NULL)
-    {
-        counter++;
-        token = strtok(NULL, " \n");
-    }
-    return counter;
+	char *token;
+	int counter = 0;
+
+	token = strtok(lineptr, " \n");
+	while (token != NULL)
+	{
+		counter++;
+		token = strtok(NULL, " \n");
+	}
+	return (counter);
 }
 
-/*
- * this function is used to tokenize lineptr
+/**
+ * tokenize_input - Tokenizes the input string
+ * @lineptr: The input string to be tokenized
+ * @count: The number of tokens to be expected
+ *
+ * Return: Array of token strings.
  */
-
 
 char **tokenize_input(char *lineptr, int count)
 {
-    char **argv = malloc(sizeof(char *) * (count + 1));
-    if (argv == NULL)
-    {
-        perror("./shell");
-        exit(1);
-    }
+	char **argv;
+	int i = 0;
+	char *token;
 
-    int i = 0;
-    char *token = strtok(lineptr, " \n");
-    while (token != NULL)
-    {
-        argv[i] = token;
-        i++;
-        token = strtok(NULL, " \n");
-    }
-    argv[i] = NULL;
-    return argv;
+	argv = malloc(sizeof(char *) * (count + 1));
+	if (argv == NULL)
+	{
+		perror("./shell");
+		exit(1);
+	}
+	token = strtok(lineptr, " \n");
+	while (token != NULL)
+	{
+		argv[i] = token;
+		i++;
+		token = strtok(NULL, " \n");
+	}
+	argv[i] = NULL;
+	return (argv);
 }
-

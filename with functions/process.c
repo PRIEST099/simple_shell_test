@@ -1,35 +1,37 @@
 #include "main.h"
 
-/*
- * this function is the one which handles all logic
- * and it's the one which is called in the main function
+/**
+ * process_input - handles the logic for processig user input
+ * @lineptr: pointer to the input line
+ * @en: array of environment variables
+ *
+ * Return: NULL
  */
 
 void process_input(char *lineptr, char **en)
 {
-    char *cpy_lineptr = strdup(lineptr);
-    if (cpy_lineptr == NULL)
-    {
-        perror("./shell");
-        exit(1); // Exit the program due to memory allocation failure
-    }
+	char *cpy_lineptr = strdup(lineptr);
+	char **argv;
+	char *fullpath;
+	int counter;
 
-    char **argv;
-    int counter = count_tokens(cpy_lineptr);
-    argv = tokenize_input(lineptr, counter);
-
-    char *fullpath = pathname(en, lineptr, ":");
-    if (fullpath == NULL)
-    {
-	    perror("./shell");
-    }
-    else
-    {
-        execute_command(argv, en, fullpath);
-        free(fullpath);
-    }
-
-    free(argv);
-    free(cpy_lineptr);
+	if (cpy_lineptr == NULL)
+	{
+		perror("./shell");
+		exit(1);
+	}
+	counter = count_tokens(cpy_lineptr);
+	argv = tokenize_input(lineptr, counter);
+	fullpath = pathname(en, lineptr, ":");
+	if (fullpath == NULL)
+	{
+		perror("./shell");
+	}
+	else
+	{
+		execute_command(argv, en, fullpath);
+		free(fullpath);
+	}
+	free(argv);
+	free(cpy_lineptr);
 }
-
