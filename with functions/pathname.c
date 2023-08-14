@@ -16,6 +16,10 @@ char *pathname(char **en, char *lineptr, char *delim)
     {
         return NULL;
     }
+
+    if (*lineptr == '/' || *lineptr == '.')
+	    return (strdup(lineptr));
+
     for (i = 0; en[i] != NULL; i++)
     {
         if (strstr(en[i], path) == en[i])

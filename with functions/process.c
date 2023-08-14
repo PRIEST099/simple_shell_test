@@ -18,8 +18,12 @@ void process_input(char *lineptr, char **en)
     int counter = count_tokens(cpy_lineptr);
     argv = tokenize_input(lineptr, counter);
 
-    char *fullpath = pathname(en, lineptr, " :");
-    if (fullpath != NULL)
+    char *fullpath = pathname(en, lineptr, ":");
+    if (fullpath == NULL)
+    {
+	    perror("./shell");
+    }
+    else
     {
         execute_command(argv, en, fullpath);
         free(fullpath);

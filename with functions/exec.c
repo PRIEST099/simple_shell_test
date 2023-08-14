@@ -9,6 +9,7 @@
 
 void execute_command(char **argv, char **en, char *fullpath)
 {
+	int status;
     pid_t pid = fork();
     if (pid == 0)
     {
@@ -18,7 +19,7 @@ void execute_command(char **argv, char **en, char *fullpath)
     }
     else
     {
-        wait(NULL);
+        wait(&status);
     }
 }
 
