@@ -18,6 +18,8 @@ char *pathname(char **en, char *lineptr, char *delim)
 
 	if (lineptr == NULL)
 		return (NULL);
+	if (*lineptr == '/' || *lineptr == '.')
+		return (strdup(lineptr));
 
 	for (i = 0; en[i] != NULL; i++)
 	{
@@ -30,7 +32,6 @@ char *pathname(char **en, char *lineptr, char *delim)
 			if (combine == NULL)
 			{
 				free(cpy_en);
-				printf("./shell");
 				return (NULL);
 			}
 
