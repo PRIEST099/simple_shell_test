@@ -9,7 +9,7 @@
  * Return: always 0 on success
  */
 
-itn main(int ac, char **av, char **en)
+int main(int ac, char **av, char **en)
 {
 	char *lineptr = NULL;
 	size_t n = 0, length;
