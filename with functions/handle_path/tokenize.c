@@ -12,11 +12,11 @@ int count_tokens(char *lineptr)
 	char *token;
 	int counter = 0;
 
-	token = strtok(lineptr, " \n");
+	token = _strtok(lineptr, " \n");
 	while (token != NULL)
 	{
 		counter++;
-		token = strtok(NULL, " \n");
+		token = _strtok(NULL, " \n");
 	}
 	return (counter);
 }
@@ -41,12 +41,12 @@ char **tokenize_input(char *lineptr, int count)
 		perror("./shell");
 		exit(1);
 	}
-	token = strtok(lineptr, " \n");
+	token = _strtok(lineptr, " \n");
 	while (token != NULL)
 	{
 		argv[i] = token;
 		i++;
-		token = strtok(NULL, " \n");
+		token = _strtok(NULL, " \n");
 	}
 	argv[i] = NULL;
 	return (argv);

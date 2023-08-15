@@ -11,7 +11,7 @@
 
 char *pathname(char **en, char *lineptr, char *delim)
 {
-	char *token1, *token2 = strtok(lineptr, delim);
+	char *token1, *token2 = _strtok(lineptr, delim);
 	char *value, *combine = NULL, *cpy_en = NULL;
 	char *path = "PATH=";
 	size_t i;
@@ -58,7 +58,7 @@ char *handle_token(char *value, char *token1, char *token2)
 	char *combine1 = NULL, *combine2 = NULL;
 	int access_value, found = 0;
 
-	token1 = strtok(value, ":");
+	token1 = _strtok(value, ":");
 	while (token1 != NULL)
 	{
 		length = strlen(token1) + strlen(token2) + 2;
@@ -85,7 +85,7 @@ char *handle_token(char *value, char *token1, char *token2)
 			combine1 = NULL;
 		}
 
-		token1 = strtok(NULL, ":");
+		token1 = _strtok(NULL, ":");
 
 		if (!found)
 			free(combine1);

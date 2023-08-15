@@ -23,10 +23,8 @@ char *find_executable_path(char **en,
 		const char *token2);
 char *handle_token(char *value, char *token1, char *token2);
 
-/**
- * getline prototype
- */
 int _getline(char **lineptr, size_t *n, int fd);
+char *_strtok(char *str, const char *delim);
 
 
 #endif

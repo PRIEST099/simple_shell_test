@@ -14,7 +14,7 @@ int _getline(char **lineptr, size_t *n, int fd)
 	size_t i = 0, new_size;
 	char *new_ptr;
 
-	if (lineptr == NULL | n == NULL)
+	if (lineptr == NULL || n == NULL)
 		return (-1);
 
 	if (*lineptr == NULL || *n == 0)
