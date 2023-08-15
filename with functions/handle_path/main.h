@@ -9,6 +9,8 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+#define LINESIZE 1024
+
 void process_input(char *lineptr, char **en);
 int count_tokens(char *lineptr);
 char **tokenize_input(char *lineptr, int count);

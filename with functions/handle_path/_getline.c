@@ -19,7 +19,7 @@ int _getline(char **lineptr, size_t *n, int fd)
 
 	if (*lineptr == NULL || *n == 0)
 	{
-		*n = 128;
+		*n = LINESIZE;
 		*lineptr = (char *)malloc(*n);
 		if (*lineptr == NULL)
 			return (-1);
