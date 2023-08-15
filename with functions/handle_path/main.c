@@ -17,7 +17,8 @@ int main(int ac, char **av, char **en)
 	while (1)
 	{
 		printf("#cisfun$ ");
-		length = getline(&lineptr, &n, stdin);
+		fflush(stdout);
+		length = _getline(&lineptr, &n, STDIN_FILENO);
 		if (length == -1)
 		{
 			printf("\n");
