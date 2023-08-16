@@ -27,7 +27,7 @@ static int _allocate_buffer(char **lineptr, size_t *n);
 static int _read_char(int fd, char *ch);
 ssize_t _getline(char **lineptr, size_t *n, int fd);
 char *_strtok(char *str, const char *delim);
-
+int ext(char *lineptr);
 
 #endif
 

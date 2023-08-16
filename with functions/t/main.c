@@ -31,8 +31,8 @@ int main(int ac, char **av, char **en)
 			lineptr[length - 1] = '\0';
 		if (strncmp(lineptr, "exit", 4) == 0)
 		{
-			//if (ext(lineptr))
-				//continue;
+			if (ext(lineptr))
+				continue;
 			break;
 		}
 		process_input(lineptr, en);
