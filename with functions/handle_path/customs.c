@@ -14,12 +14,16 @@ int ext(char *lineptr)
 	int counter = 0, status, i = 0;
 
 	if (_lineptr == NULL || cpy_lineptr == NULL)
+	{
+		free(lineptr);
 		exit(-1);
+	}
 	counter = count_tokens(cpy_lineptr);
 	if (counter == 1)
 	{
 		free(cpy_lineptr);
 		free(_lineptr);
+		free(lineptr);
 		exit(0);
 	}
 	else if (counter != 2)
@@ -29,24 +33,19 @@ int ext(char *lineptr)
 		printf("Usage: exit [status:optional]\n");
 		return (1);
 	}
-	argv = malloc(sizeof(char *) * counter);
-	if (argv == NULL)
+	argv = tokenize_input(lineptr, counter);
+	if(_isdigit(argv[1]) != 0)
 	{
 		free(cpy_lineptr);
+		free(argv);
 		free(_lineptr);
-		exit(-1);
-	}
-	token = _strtok(_lineptr, " ");
-	while (i < counter)
-	{
-		argv[i++] = token;
-		token = _strtok(NULL, " ");
+		printf("Usage: exit [status:optional]\n");
+		return (1);
 	}
 	status = atoi(argv[1]);
+	free(argv);
 	free(cpy_lineptr);
 	free(_lineptr);
-	free(argv);
-	free(token);
+	free(lineptr);
 	exit(status);
 }
-
