@@ -8,8 +8,8 @@
 
 int ext(char *lineptr)
 {
-	char *_lineptr = strdup(lineptr);
-	char *cpy_lineptr = strdup(lineptr);
+	char *_lineptr = _strdup(lineptr);
+	char *cpy_lineptr = _strdup(lineptr);
 	char *token = NULL, **argv = NULL;
 	int counter = 0, status, i = 0;
 
@@ -30,19 +30,17 @@ int ext(char *lineptr)
 	{
 		free(cpy_lineptr);
 		free(_lineptr);
-		printf("Usage: exit [status:optional]\n");
 		return (1);
 	}
 	argv = tokenize_input(lineptr, counter);
-	if(_isdigit(argv[1]) != 0)
+	if (_isdigit(argv[1]) != 0)
 	{
 		free(cpy_lineptr);
 		free(argv);
 		free(_lineptr);
-		printf("Usage: exit [status:optional]\n");
 		return (1);
 	}
-	status = atoi(argv[1]);
+	status = _atoi(argv[1]);
 	free(argv);
 	free(cpy_lineptr);
 	free(_lineptr);

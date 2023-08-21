@@ -1,6 +1,19 @@
 #include "main.h"
 
 /**
+ * _isspace - Check if a character is a whitespace character.
+ * @c: The character to be checked.
+ *
+ * Return: 1 if @c is a whitespace character, 0 otherwise.
+ */
+
+int _isspace(int c)
+{
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\r'
+	    || c == '\f' || c == '\v');
+}
+
+/**
  * count_tokens - Counts the number of input arguments.
  * @lineptr: The input string to be tokenized.
  *
@@ -44,8 +57,22 @@ char **tokenize_input(char *lineptr, int count)
 	token = _strtok(lineptr, " \n");
 	while (token != NULL)
 	{
-		argv[i] = token;
-		i++;
+		/* Trim leading spaces */
+		while (*token && _isspace(*token))
+			token++;
+		/* Trim trailing spaces */
+		char *end = token + _strlen(token) - 1;
+
+		while (end > token && _isspace(*end))
+			end--;
+
+		*(end + 1) = '\0';
+
+		if (*token)
+		{
+			argv[i] = token;
+			i++;
+		}
 		token = _strtok(NULL, " \n");
 	}
 	argv[i] = NULL;

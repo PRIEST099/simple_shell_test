@@ -18,8 +18,17 @@ char *_strtok(char *str, const char *delim)
 	if (!buffer)
 		return (NULL);
 
+	while (*buffer && _strchr(delim, *buffer))
+		buffer++;
+
+	if (*buffer == '\0')
+	{
+		buffer = NULL;
+		return (NULL);
+	}
+
 	char *token_start = buffer;
-	char *token_end = strpbrk(buffer, delim);
+	char *token_end = _strpbrk(buffer, delim);
 
 	if (token_end)
 	{

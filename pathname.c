@@ -1,62 +1,100 @@
 #include "main.h"
 
+/**
+ * pathname - search a command path
+ * @en: pointer to system environment
+ * @lineptr: pointer to entered command (no args)
+ * @delim: delimiters
+ *
+ * Return: combine on success and NULL on fail
+ */
+
 char *pathname(char **en, char *lineptr, char *delim)
 {
-    char *value, *token;
-    size_t length;
-    char *combine = NULL;
-    char *copy = NULL;
-    int i, found = 0;
-    int access_value;
-    char *path = "PATH=";
-    char *delim2 = ":";
-    char *token2 = strtok(lineptr, delim);
+	char *token1, *token2 = _strtok(lineptr, delim);
+	char *value, *combine = NULL, *cpy_en = NULL;
+	char *path = "PATH=";
+	size_t i;
 
-    if (lineptr == NULL)
-    {
-        return NULL;
-    }
-    for (i = 0; en[i] != NULL; i++)
-    {
-        if (strstr(en[i], path) == en[i])
-        {
-            copy = strdup(en[i]);
-            value = copy + strlen(path);
-            token = strtok(value, delim2);
+	if (lineptr == NULL)
+		return (NULL);
 
-            while (token != NULL)
-            {
-                if (found)
-                    break;
+	while (*lineptr && _isspace(*lineptr))
+		lineptr++;
 
-                length = strlen(token) + strlen(token2) + 2;
-                combine = malloc(sizeof(char) * length);
+	if (*lineptr == '/' || *lineptr == '.')
+		return (_strdup(lineptr));
 
-                if (combine == NULL)
-                {
-                    free(copy); // Free the copied string
-                    perror("./shell");
-                    return NULL;
-                }
+	for (i = 0; en[i] != NULL; i++)
+	{
+		if (_strstr(en[i], path) == en[i])
+		{
+			cpy_en = _strdup(en[i]);
+			value = cpy_en + _strlen(path);
+			combine = handle_token(value, token1, token2);
 
-                strcpy(combine, token);
-                strcat(combine, "/");
-                strcat(combine, token2);
-                access_value = access(combine, X_OK);
-                if (access_value == 0)
-                {
-                    found = 1;
-                }
-                else
-                {
-                    free(combine); /* Free the allocated memory */
-		    combine = NULL;
-                    token = strtok(NULL, delim2);
-                }
-            }
-            free(copy); // Free the copied string
-        }
-    }
-    return combine; // Return the last assigned value of combine
+			if (combine == NULL)
+			{
+				free(cpy_en);
+				return (NULL);
+			}
+
+			break;
+		}
+	}
+
+	free(cpy_en);
+	return (combine);
 }
 
+/**
+ * handle_token - handle stdin tokens and append to the path
+ * @value: pointer to the actual path needed
+ * @token1: pointer to the path token
+ * @token2: pointer to the stdin command (no args)
+ *
+ * Return: combine2 on success and NUll on fail
+ */
+
+char *handle_token(char *value, char *token1, char *token2)
+{
+	size_t length;
+	char *combine1 = NULL, *combine2 = NULL;
+	int access_value, found = 0;
+
+	token1 = _strtok(value, ":");
+	while (token1 != NULL)
+	{
+		length = _strlen(token1) + _strlen(token2) + 2;
+		combine1 = malloc(sizeof(char *) + length);
+
+		if (combine1 == NULL)
+			return (NULL);
+
+		_strcpy(combine1, token1);
+		_strcat(combine1, "/");
+		_strcat(combine1, token2);
+		access_value = access(combine1, X_OK);
+
+		if (access_value == 0)
+		{
+			found = 1;
+			combine2 = combine1;
+			break;
+		}
+
+		else
+		{
+			free(combine1);
+			combine1 = NULL;
+		}
+
+		token1 = _strtok(NULL, ":");
+
+		if (!found)
+			free(combine1);
+
+	}
+
+	return (combine2);
+}
