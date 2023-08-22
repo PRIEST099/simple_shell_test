@@ -10,8 +10,8 @@ int ext(char *lineptr)
 {
 	char *_lineptr = _strdup(lineptr);
 	char *cpy_lineptr = _strdup(lineptr);
-	char *token = NULL, **argv = NULL;
-	int counter = 0, status, i = 0;
+	char **argv = NULL;
+	int counter = 0, status;
 
 	if (_lineptr == NULL || cpy_lineptr == NULL)
 	{

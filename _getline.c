@@ -51,18 +51,19 @@ static int _read_char(int fd, char *ch)
  */
 ssize_t _getline(char **lineptr, size_t *n, int fd)
 {
+	size_t pos = 0;
+	char *buffer;
+	char ch;
+	char *newBuffer;
+
 	if (lineptr == NULL || n == NULL)
 		return (-1); /* Invalid arguments */
-
 	if (_allocate_buffer(lineptr, n) == -1)
 		return (-1); /* Memory allocation error */
-
-	size_t pos = 0;
-	char *buffer = *lineptr;
+	buffer = *lineptr;
 
 	while (1)
 	{
-		char ch;
 
 		if (_read_char(fd, &ch) != 1)
 			break;
@@ -71,7 +72,7 @@ ssize_t _getline(char **lineptr, size_t *n, int fd)
 		{
 			*n *= 2;
 
-			char *newBuffer = (char *)realloc(*lineptr, *n);
+			newBuffer = (char *)realloc(*lineptr, *n);
 
 			if (newBuffer == NULL)
 				return (-1); /* Memory allocation error */

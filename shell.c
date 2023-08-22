@@ -12,14 +12,18 @@
 int main(int ac, char **av, char **en)
 {
 	char *lineptr = NULL;
-	size_t n = 0, length, i;
+	size_t n = 0, length, j;
+	long unsigned int i = -1;
+
+	(void)ac;
+	(void)av;
 
 	while (1)
 	{
 		printf("#cisfun$ ");
 		fflush(stdout);
 		length = _getline(&lineptr, &n, STDIN_FILENO);
-		if (length == -1)
+		if (length == i)
 		{
 			printf("\n");
 			break;
@@ -29,11 +33,18 @@ int main(int ac, char **av, char **en)
 
 		if (lineptr[length - 1] == '\n')
 			lineptr[length - 1] = '\0';
+		trim_spaces(lineptr);
 		if (_strncmp(lineptr, "exit", 4) == 0)
 		{
 			if (ext(lineptr))
 				continue;
 			break;
+		}
+		if (strncmp(lineptr, "cd", 2) == 0)
+		{
+			if(cd(lineptr))
+				perror("./shell");
+			continue;
 		}
 		if (_strncmp(lineptr, "setenv", 6) == 0 ||
 				_strncmp(lineptr, "unsetenv", 8) == 0)
@@ -45,7 +56,8 @@ int main(int ac, char **av, char **en)
 			process_input(lineptr, en);
 		}
 	}
-
+	for (j = 0; en[j] != NULL; j++)
+		free(en[j]);
 	free(lineptr);
 	return (0);
 }

@@ -11,7 +11,7 @@
 
 char *pathname(char **en, char *lineptr, char *delim)
 {
-	char *token1, *token2 = _strtok(lineptr, delim);
+	char *token1 = NULL, *token2 = _strtok(lineptr, delim);
 	char *value, *combine = NULL, *cpy_en = NULL;
 	char *path = "PATH=";
 	size_t i;

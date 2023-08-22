@@ -1,6 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <stddef.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,9 +24,6 @@ char *find_executable_path(char **en,
 		const char *path_variable,
 		const char *token2);
 char *handle_token(char *value, char *token1, char *token2);
-
-static int _allocate_buffer(char **lineptr, size_t *n);
-static int _read_char(int fd, char *ch);
 ssize_t _getline(char **lineptr, size_t *n, int fd);
 char *_strtok(char *str, const char *delim);
 
@@ -49,4 +47,6 @@ int _setenv(char **en, const char *variable, const char *value);
 int _unsetenv(char **en, const char *variable);
 void handle_commands(char *lineptr, char **en);
 
+void trim_spaces(char *lineptr);
+int cd(char *lineptr);
 #endif

@@ -11,6 +11,8 @@
 char *_strtok(char *str, const char *delim)
 {
 	static char *buffer;
+	char *token_start = NULL;
+	char *token_end = NULL;
 
 	if (str)
 		buffer = str;
@@ -27,8 +29,8 @@ char *_strtok(char *str, const char *delim)
 		return (NULL);
 	}
 
-	char *token_start = buffer;
-	char *token_end = _strpbrk(buffer, delim);
+	token_start = buffer;
+	token_end = _strpbrk(buffer, delim);
 
 	if (token_end)
 	{

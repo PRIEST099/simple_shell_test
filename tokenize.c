@@ -47,6 +47,7 @@ char **tokenize_input(char *lineptr, int count)
 	char **argv;
 	int i = 0;
 	char *token;
+	char *end;
 
 	argv = malloc(sizeof(char *) * (count + 1));
 	if (argv == NULL)
@@ -61,7 +62,7 @@ char **tokenize_input(char *lineptr, int count)
 		while (*token && _isspace(*token))
 			token++;
 		/* Trim trailing spaces */
-		char *end = token + _strlen(token) - 1;
+		end = token + _strlen(token) - 1;
 
 		while (end > token && _isspace(*end))
 			end--;

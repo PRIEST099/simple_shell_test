@@ -10,20 +10,20 @@
  */
 int _setenv(char **en, const char *variable, const char *value)
 {
+	size_t i;
+	char *new_env = NULL;
+
 	if (variable == NULL || value == NULL)
 	{
 		perror("./shell");
 		return (-1);
 	}
-
-	size_t i;
-
 	for (i = 0; en[i] != NULL; i++)
 	{
 		if (_strncmp(en[i], variable, _strlen(variable)) == 0)
 		{
-			char *new_env = malloc(_strlen(variable) + _strlen(value) + 2);
-
+			free(en[i]);
+			new_env = malloc(_strlen(variable) + _strlen(value) + 2);
 			if (new_env == NULL)
 			{
 				perror("malloc");
@@ -37,8 +37,7 @@ int _setenv(char **en, const char *variable, const char *value)
 		}
 	}
 
-	char *new_env = malloc(_strlen(variable) + _strlen(value) + 2);
-
+	new_env = malloc(_strlen(variable) + _strlen(value) + 2);
 	if (new_env == NULL)
 	{
 		perror("malloc");
@@ -61,26 +60,23 @@ int _setenv(char **en, const char *variable, const char *value)
  */
 int _unsetenv(char **en, const char *variable)
 {
+	size_t i, j;
+
 	if (variable == NULL)
 	{
 		perror("./shell");
 		return (-1);
 	}
-
-	size_t i, j;
-
 	for (i = 0; en[i] != NULL; i++)
 	{
 		if (_strncmp(en[i], variable, _strlen(variable)) == 0)
 		{
+			free(en[i]);
 			for (j = i; en[j] != NULL; j++)
-			{
 				en[j] = en[j + 1];
-			}
 			return (0);
 		}
 	}
-
 	perror("./shell");
 	return (-1);
 }
