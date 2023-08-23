@@ -12,7 +12,7 @@ void trim_spaces(char *lineptr)
 
 	if (lineptr == NULL)
 		return;
-	while (lineptr[start] == ' ')
+	while (lineptr[start] == ' ' || lineptr[start] == '\t')
 		start++;
 
 	while (lineptr[length] != '\0')

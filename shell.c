@@ -12,18 +12,16 @@
 int main(int ac, char **av, char **en)
 {
 	char *lineptr = NULL;
-	size_t n = 0, length, j;
-	long unsigned int i = -1;
-
+	size_t n = 0, i;
+	int length;
 	(void)ac;
 	(void)av;
 
 	while (1)
-	{
-		printf("#cisfun$ ");
+	{	printf("#cisfun$ ");
 		fflush(stdout);
 		length = _getline(&lineptr, &n, STDIN_FILENO);
-		if (length == i)
+		if (length == -1)
 		{
 			printf("\n");
 			break;
@@ -40,24 +38,17 @@ int main(int ac, char **av, char **en)
 				continue;
 			break;
 		}
-		if (strncmp(lineptr, "cd", 2) == 0)
-		{
-			if(cd(lineptr))
-				perror("./shell");
-			continue;
-		}
 		if (_strncmp(lineptr, "setenv", 6) == 0 ||
-				_strncmp(lineptr, "unsetenv", 8) == 0)
-		{
-			handle_commands(lineptr, en);
+			_strncmp(lineptr, "unsetenv", 8) == 0 ||
+			_strncmp(lineptr, "cd", 2) == 0)
+		{	handle_commands(lineptr, en);
 		}
 		else
-		{
-			process_input(lineptr, en);
+		{	process_input(lineptr, en);
 		}
 	}
-	for (j = 0; en[j] != NULL; j++)
-		free(en[j]);
+	for (i = 0; en[i] != NULL; i++)
+		free(en[i]);
 	free(lineptr);
 	return (0);
 }

@@ -52,11 +52,11 @@ int changeToNamedDirectory(const char *dir_name, char **old_pwd)
 
 	if (*dir_name == '/')
 	{
-		new_dir = strdup(dir_name);
+		new_dir = _strdup(dir_name);
 	}
 	else
 	{
-		new_dir = (char *)malloc(strlen(current_dir) + strlen(dir_name) + 2);
+		new_dir = (char *)malloc(_strlen(current_dir) + _strlen(dir_name) + 2);
 		if (new_dir)
 		{
 			_strcpy(new_dir, current_dir);
@@ -98,8 +98,8 @@ int changeToPreviousDirectory(char **old_pwd)
 
 int cd(char *lineptr)
 {
-	char *cpy_lineptr = strdup(lineptr);
-	char *_lineptr = strdup(lineptr);
+	char *cpy_lineptr = _strdup(lineptr);
+	char *_lineptr = _strdup(lineptr);
 	int counter = 0;
 	char **argv = NULL;
 	char *old_pwd = getenv("OLDPWD");
@@ -123,7 +123,7 @@ int cd(char *lineptr)
 		}
 		if (*argv[1] == '/')
 			status = changeToNamedDirectory(argv[1], &old_pwd);
-		else if (strcmp(argv[1], "-") == 0)
+		else if (_strcmp(argv[1], "-") == 0)
 			status = changeToPreviousDirectory(&old_pwd);
 		else
 			status = changeToNamedDirectory(argv[1], &old_pwd);

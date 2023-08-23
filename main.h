@@ -49,4 +49,5 @@ void handle_commands(char *lineptr, char **en);
 
 void trim_spaces(char *lineptr);
 int cd(char *lineptr);
+
 #endif

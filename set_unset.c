@@ -88,12 +88,11 @@ int _unsetenv(char **en, const char *variable)
  */
 void handle_commands(char *lineptr, char **en)
 {
+	char *_lineptr = _strdup(lineptr);
 	char *command = _strtok(lineptr, " \n");
 
-	if (command == NULL)
-	{
-		return;
-	}
+	if (command == NULL || _lineptr == NULL)
+	return;
 
 	if (_strcmp(command, "setenv") == 0)
 	{
@@ -122,4 +121,10 @@ void handle_commands(char *lineptr, char **en)
 			perror("./shell");
 		}
 	}
+	else if (_strcmp(command, "cd") == 0)
+	{
+		if (cd(_lineptr))
+			perror("./shell");
+	}
+	free(_lineptr);
 }
