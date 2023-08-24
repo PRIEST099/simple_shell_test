@@ -104,13 +104,9 @@ void handle_commands(char *lineptr, char **en, char **av)
 		char *value = _strtok(NULL, " \n");
 
 		if (variable != NULL && value != NULL)
-		{
 			_setenv(en, variable, value, av);
-		}
 		else
-		{
 	fprintf(stderr, "%s: %d: %s: not found\n", av[0], errno, command);
-		}
 	}
 	else if (_strcmp(command, "unsetenv") == 0)
 	{
@@ -130,6 +126,10 @@ void handle_commands(char *lineptr, char **en, char **av)
 		err = _strtok(NULL, " \n\t");
 		if (cd(_lineptr, av))
 		fprintf(stderr, "%s: %d: can't cd to %s\n", av[0], errno, err);
+	}
+	else
+	{
+		fprintf(stderr, "%s: %d: %s: not found\n", av[0], errno, command);
 	}
 	free(_lineptr);
 }

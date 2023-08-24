@@ -49,11 +49,11 @@ char **tokenize_input(char *lineptr, int count, char **av)
 	int i = 0;
 	char *token;
 	char *end;
+	(void)av;
 
 	argv = malloc(sizeof(char *) * (count + 1));
 	if (argv == NULL)
 	{
-		_perror(av[0], errno, (char *)argv);
 		exit(1);
 	}
 	token = _strtok(lineptr, " \n");
