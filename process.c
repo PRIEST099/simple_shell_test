@@ -4,10 +4,11 @@
  * process_input - handles the logic for processing user input
  * @lineptr: pointer to the input line
  * @en: array of environment variables
+ * @av: Pointer to input array
  *
  * Return: void
  */
-void process_input(char *lineptr, char **en)
+void process_input(char *lineptr, char **en, char **av)
 {
 	char *cpy_lineptr = _strdup(lineptr);
 	char **argv;
@@ -16,21 +17,23 @@ void process_input(char *lineptr, char **en)
 
 	if (cpy_lineptr == NULL)
 	{
-		perror("./sehll");
+		fprintf(stderr, "%s: %d: %s: not found\n", av[0],
+				errno, lineptr);
 		exit(1);
 	}
 
 	counter = count_tokens(cpy_lineptr);
-	argv = tokenize_input(lineptr, counter);
+	argv = tokenize_input(lineptr, counter, av);
 	fullpath = pathname(en, lineptr, ":");
 
 	if (fullpath == NULL)
 	{
-		perror("./shell");
+		fprintf(stderr, "%s: %d: %s: not found\n", av[0],
+				errno, lineptr);
 	}
 	else
 	{
-		execute_command(argv, en, fullpath);
+		execute_command(argv, en, fullpath, av);
 		free(fullpath);
 	}
 

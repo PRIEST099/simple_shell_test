@@ -38,11 +38,12 @@ int count_tokens(char *lineptr)
  * tokenize_input - Tokenizes the input string
  * @lineptr: The input string to be tokenized
  * @count: The number of tokens to be expected
+ * @av: Pointer to input array
  *
  * Return: Array of token strings.
  */
 
-char **tokenize_input(char *lineptr, int count)
+char **tokenize_input(char *lineptr, int count, char **av)
 {
 	char **argv;
 	int i = 0;
@@ -52,7 +53,7 @@ char **tokenize_input(char *lineptr, int count)
 	argv = malloc(sizeof(char *) * (count + 1));
 	if (argv == NULL)
 	{
-		perror("./shell");
+		_perror(av[0], errno, (char *)argv);
 		exit(1);
 	}
 	token = _strtok(lineptr, " \n");

@@ -5,17 +5,18 @@
  * @en: Pointer to the environment array
  * @variable: Name of the variable to set/modify
  * @value: Value to assign to the variable
+ * @av: Pointer to input array
  *
  * Return: 0 on success, -1 on failure
  */
-int _setenv(char **en, const char *variable, const char *value)
+int _setenv(char **en, const char *variable, const char *value, char **av)
 {
 	size_t i;
 	char *new_env = NULL;
 
 	if (variable == NULL || value == NULL)
 	{
-		perror("./shell");
+		_perror(av[0], errno, variable);
 		return (-1);
 	}
 	for (i = 0; en[i] != NULL; i++)
@@ -26,7 +27,7 @@ int _setenv(char **en, const char *variable, const char *value)
 			new_env = malloc(_strlen(variable) + _strlen(value) + 2);
 			if (new_env == NULL)
 			{
-				perror("malloc");
+				_perror(av[0], errno, new_env);
 				return (-1);
 			}
 			_strcpy(new_env, variable);
@@ -40,7 +41,7 @@ int _setenv(char **en, const char *variable, const char *value)
 	new_env = malloc(_strlen(variable) + _strlen(value) + 2);
 	if (new_env == NULL)
 	{
-		perror("malloc");
+		_perror(av[0], errno, new_env);
 		return (-1);
 	}
 	_strcpy(new_env, variable);
@@ -55,16 +56,17 @@ int _setenv(char **en, const char *variable, const char *value)
  * _unsetenv - Remove an environment variable
  * @en: Pointer to the environment array
  * @variable: Name of the variable to remove
+ * @av: Pointer to input array
  *
  * Return: 0 on success, -1 on failure
  */
-int _unsetenv(char **en, const char *variable)
+int _unsetenv(char **en, const char *variable, char **av)
 {
 	size_t i, j;
 
 	if (variable == NULL)
 	{
-		perror("./shell");
+		_perror(av[0], errno, variable);
 		return (-1);
 	}
 	for (i = 0; en[i] != NULL; i++)
@@ -77,7 +79,7 @@ int _unsetenv(char **en, const char *variable)
 			return (0);
 		}
 	}
-	perror("./shell");
+	_perror(av[0], errno, variable);
 	return (-1);
 }
 
@@ -85,15 +87,17 @@ int _unsetenv(char **en, const char *variable)
  * handle_commands - Process shell commands
  * @lineptr: Pointer to the command line input
  * @en: Pointer to the environment array
+ * @av: Pointer to input array
+ *
  */
-void handle_commands(char *lineptr, char **en)
+void handle_commands(char *lineptr, char **en, char **av)
 {
 	char *_lineptr = _strdup(lineptr);
 	char *command = _strtok(lineptr, " \n");
+	char *err = NULL;
 
 	if (command == NULL || _lineptr == NULL)
 	return;
-
 	if (_strcmp(command, "setenv") == 0)
 	{
 		char *variable = _strtok(NULL, " \n");
@@ -101,11 +105,11 @@ void handle_commands(char *lineptr, char **en)
 
 		if (variable != NULL && value != NULL)
 		{
-			_setenv(en, variable, value);
+			_setenv(en, variable, value, av);
 		}
 		else
 		{
-			perror("./shell");
+	fprintf(stderr, "%s: %d: %s: not found\n", av[0], errno, command);
 		}
 	}
 	else if (_strcmp(command, "unsetenv") == 0)
@@ -114,17 +118,18 @@ void handle_commands(char *lineptr, char **en)
 
 		if (variable != NULL)
 		{
-			_unsetenv(en, variable);
+			_unsetenv(en, variable, av);
 		}
 		else
 		{
-			perror("./shell");
+	fprintf(stderr, "%s: %d: %s: not found\n", av[0], errno, command);
 		}
 	}
 	else if (_strcmp(command, "cd") == 0)
 	{
-		if (cd(_lineptr))
-			perror("./shell");
+		err = _strtok(NULL, " \n\t");
+		if (cd(_lineptr, av))
+		fprintf(stderr, "%s: %d: can't cd to %s\n", av[0], errno, err);
 	}
 	free(_lineptr);
 }

@@ -13,10 +13,10 @@
 
 #define LINESIZE 1024
 
-void process_input(char *lineptr, char **en);
+void process_input(char *lineptr, char **en, char **av);
 int count_tokens(char *lineptr);
-char **tokenize_input(char *lineptr, int count);
-void execute_command(char **argv, char **en, char *fullpath);
+char **tokenize_input(char *lineptr, int count, char **av);
+void execute_command(char **argv, char **en, char *fullpath, char **av);
 char *pathname(char **en, char *lineptr, char *delim);
 char *combine_path_token(const char *path, const char *token2);
 int check_path_access(const char *path);
@@ -27,7 +27,7 @@ char *handle_token(char *value, char *token1, char *token2);
 ssize_t _getline(char **lineptr, size_t *n, int fd);
 char *_strtok(char *str, const char *delim);
 
-int ext(char *lineptr);
+int ext(char *lineptr, char **av);
 int _isdigit(char *status);
 int _isspace(int c);
 
@@ -43,11 +43,13 @@ char *_strdup(const char *s);
 
 int _atoi(const char *s);
 
-int _setenv(char **en, const char *variable, const char *value);
-int _unsetenv(char **en, const char *variable);
-void handle_commands(char *lineptr, char **en);
+int _setenv(char **en, const char *variable, const char *value, char **av);
+int _unsetenv(char **en, const char *variable, char **av);
+void handle_commands(char *lineptr, char **en, char **av);
 
 void trim_spaces(char *lineptr);
-int cd(char *lineptr);
+int cd(char *lineptr, char **av);
+
+void _perror(const char *program_name, int error_number, const char *command);
 
 #endif

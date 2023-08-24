@@ -34,17 +34,17 @@ int main(int ac, char **av, char **en)
 		trim_spaces(lineptr);
 		if (_strncmp(lineptr, "exit", 4) == 0)
 		{
-			if (ext(lineptr))
+			if (ext(lineptr, av))
 				continue;
 			break;
 		}
 		if (_strncmp(lineptr, "setenv", 6) == 0 ||
 			_strncmp(lineptr, "unsetenv", 8) == 0 ||
 			_strncmp(lineptr, "cd", 2) == 0)
-		{	handle_commands(lineptr, en);
+		{	handle_commands(lineptr, en, av);
 		}
 		else
-		{	process_input(lineptr, en);
+		{	process_input(lineptr, en, av);
 		}
 	}
 	for (i = 0; en[i] != NULL; i++)

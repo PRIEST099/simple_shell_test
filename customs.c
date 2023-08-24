@@ -3,10 +3,12 @@
 /**
  * ext - handles the exit command with or without the status
  * @lineptr: pointer to the entered command
+ * @av: Pointer to input array
+ *
  * Return: void
  */
 
-int ext(char *lineptr)
+int ext(char *lineptr, char **av)
 {
 	char *_lineptr = _strdup(lineptr);
 	char *cpy_lineptr = _strdup(lineptr);
@@ -32,7 +34,7 @@ int ext(char *lineptr)
 		free(_lineptr);
 		return (1);
 	}
-	argv = tokenize_input(lineptr, counter);
+	argv = tokenize_input(lineptr, counter, av);
 	if (_isdigit(argv[1]) != 0)
 	{
 		free(cpy_lineptr);

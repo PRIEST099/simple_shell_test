@@ -93,10 +93,12 @@ int changeToPreviousDirectory(char **old_pwd)
 /**
  * cd - Handle the 'cd' command
  * @lineptr: Command string entered
+ * @av: Pointer to input array
+ *
  * Return: 0 on success, 1 on failure
  */
 
-int cd(char *lineptr)
+int cd(char *lineptr, char **av)
 {
 	char *cpy_lineptr = _strdup(lineptr);
 	char *_lineptr = _strdup(lineptr);
@@ -114,7 +116,7 @@ int cd(char *lineptr)
 	}
 	else
 	{
-		argv = tokenize_input(lineptr, counter);
+		argv = tokenize_input(lineptr, counter, av);
 		if (argv == NULL)
 		{
 			free(cpy_lineptr);
