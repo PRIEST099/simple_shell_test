@@ -1,82 +1,41 @@
-#include "main.h"
-
+#include "shell.h"
 /**
- * _isspace - Check if a character is a whitespace character.
- * @c: The character to be checked.
- *
- * Return: 1 if @c is a whitespace character, 0 otherwise.
+ * tokenize - this function separate the string using a designed delimiter
+ * @data: a pointer to the program's data
+ * Return: an array of the different parts of the string
  */
-
-int _isspace(int c)
+void tokenize(data_of_program *data)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\r'
-	    || c == '\f' || c == '\v');
-}
+	char *delimiter = " \t";
+	int i, j, counter = 2, length;
 
-/**
- * count_tokens - Counts the number of input arguments.
- * @lineptr: The input string to be tokenized.
- *
- * Return: the number of tokens
- */
-
-int count_tokens(char *lineptr)
-{
-	char *token;
-	int counter = 0;
-
-	token = _strtok(lineptr, " \n");
-	while (token != NULL)
+	length = str_length(data->input_line);
+	if (length)
 	{
-		counter++;
-		token = _strtok(NULL, " \n");
+		if (data->input_line[length - 1] == '\n')
+			data->input_line[length - 1] = '\0';
 	}
-	return (counter);
-}
 
-/**
- * tokenize_input - Tokenizes the input string
- * @lineptr: The input string to be tokenized
- * @count: The number of tokens to be expected
- * @av: Pointer to input array
- *
- * Return: Array of token strings.
- */
-
-char **tokenize_input(char *lineptr, int count, char **av)
-{
-	char **argv;
-	int i = 0;
-	char *token;
-	char *end;
-	(void)av;
-
-	argv = malloc(sizeof(char *) * (count + 1));
-	if (argv == NULL)
+	for (i = 0; data->input_line[i]; i++)
 	{
-		exit(1);
-	}
-	token = _strtok(lineptr, " \n");
-	while (token != NULL)
-	{
-		/* Trim leading spaces */
-		while (*token && _isspace(*token))
-			token++;
-		/* Trim trailing spaces */
-		end = token + _strlen(token) - 1;
-
-		while (end > token && _isspace(*end))
-			end--;
-
-		*(end + 1) = '\0';
-
-		if (*token)
+		for (j = 0; delimiter[j]; j++)
 		{
-			argv[i] = token;
-			i++;
+			if (data->input_line[i] == delimiter[j])
+				counter++;
 		}
-		token = _strtok(NULL, " \n");
 	}
-	argv[i] = NULL;
-	return (argv);
+
+	data->tokens = malloc(counter * sizeof(char *));
+	if (data->tokens == NULL)
+	{
+		perror(data->program_name);
+		exit(errno);
+	}
+	i = 0;
+	data->tokens[i] = str_duplicate(_strtok(data->input_line, delimiter));
+	data->command_name = str_duplicate(data->tokens[0]);
+	while (data->tokens[i++])
+	{
+		data->tokens[i] = str_duplicate(_strtok(NULL, delimiter));
+	}
 }
