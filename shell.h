@@ -59,14 +59,14 @@ typedef struct builtins
 
 /*========  shell.c  ========*/
 
-/* Inicialize the struct with the info of the program */
-void inicialize_data(data_of_program *data, int arc, char *argv[], char **env);
+/* Initializes the struct with the info of the program */
+void init_data(data_of_program *data, int arc, char *argv[], char **env);
 
 /* Makes the infinite loop that shows the prompt*/
-void sisifo(char *prompt, data_of_program *data);
+void infinite(char *prompt, data_of_program *data);
 
 /* Print the prompt in a new line */
-void handle_ctrl_c(int opr UNUSED);
+void manag_eof(int opr UNUSED);
 
 
 /*========  _getline.c  ========*/
@@ -81,13 +81,13 @@ int check_logic_ops(char *array_commands[], int i, char array_operators[]);
 /*======== expansions.c ========*/
 
 /* expand variables */
-void expand_variables(data_of_program *data);
+void expand_vars(data_of_program *data);
 
 /* expand aliases */
 void expand_alias(data_of_program *data);
 
 /* append the string to the end of the buffer*/
-int buffer_add(char *buffer, char *str_to_add);
+int buffer_addition(char *buffer, char *str_to_add);
 
 
 /*======== str_tok.c ========*/
@@ -99,10 +99,10 @@ void tokenize(data_of_program *data);
 char *_strtok(char *line, char *delim);
 
 
-/*======== execute.c ========*/
+/*======== exec.c ========*/
 
 /* Execute a command with its entire path */
-int execute(data_of_program *data);
+int exec(data_of_program *data);
 
 
 /*======== builtins_list.c ========*/
@@ -117,7 +117,7 @@ int builtins_list(data_of_program *data);
 char **tokenize_path(data_of_program *data);
 
 /* Search for program in path */
-int find_program(data_of_program *data);
+int find_prog(data_of_program *data);
 
 
 /************** HELPERS FOR MEMORY MANAGEMENT **************/
@@ -147,7 +147,7 @@ int builtin_exit(data_of_program *data);
 int builtin_cd(data_of_program *data);
 
 /* set the work directory */
-int set_work_directory(data_of_program *data, char *new_dir);
+int set_working_directory(data_of_program *data, char *new_dir);
 
 /* show help information */
 int builtin_help(data_of_program *data);
@@ -207,16 +207,16 @@ int _print_error(int errorcode, data_of_program *data);
 /*======== helpers_string.c ========*/
 
 /* Counts the number of characters of a string */
-int str_length(char *string);
+int _strlen(char *string);
 
 /* Duplicates an string */
-char *str_duplicate(char *string);
+char *_strdup(char *string);
 
 /* Compares two strings */
-int str_compare(char *string1, char *string2, int number);
+int _strcmp(char *string1, char *string2, int number);
 
 /* Concatenates two strings */
-char *str_concat(char *string1, char *string2);
+char *_strcat(char *string1, char *string2);
 
 /* Reverse a string */
 void str_reverse(char *string);

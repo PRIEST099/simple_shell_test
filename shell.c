@@ -11,39 +11,39 @@ int main(int argc, char *argv[], char *env[])
 	data_of_program data_struct = {NULL}, *data = &data_struct;
 	char *prompt = "";
 
-	inicialize_data(data, argc, argv, env);
+	init_data(data, argc, argv, env);
 
-	signal(SIGINT, handle_ctrl_c);
+	signal(SIGINT, manag_eof);
 
 	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO) && argc == 1)
 	{/* We are in the terminal, interactive mode */
 		errno = 2;/*???????*/
-		prompt = PROMPT_MSG;
+		prompt = PROMPT;
 	}
 	errno = 0;
-	sisifo(prompt, data);
+	infinite(prompt, data);
 	return (0);
 }
 
 /**
- * handle_ctrl_c - print the prompt in a new line
+ * manag_eof - print the prompt in a new line
  * when the signal SIGINT (ctrl + c) is send to the program
  * @UNUSED: option of the prototype
  */
-void handle_ctrl_c(int opr UNUSED)
+void manag_eof(int opr UNUSED)
 {
 	_print("\n");
-	_print(PROMPT_MSG);
+	_print(PROMPT);
 }
 
 /**
- * inicialize_data - inicialize the struct with the info of the program
+ * init_data - initializes the struct with the info of the program
  * @data: pointer to the structure of data
  * @argv: array of arguments pased to the program execution
  * @env: environ pased to the program execution
  * @argc: number of values received from the command line
  */
-void inicialize_data(data_of_program *data, int argc, char *argv[], char **env)
+void init_data(data_of_program *data, int argc, char *argv[], char **env)
 {
 	int i = 0;
 
@@ -72,7 +72,7 @@ void inicialize_data(data_of_program *data, int argc, char *argv[], char **env)
 	{
 		for (; env[i]; i++)
 		{
-			data->env[i] = str_duplicate(env[i]);
+			data->env[i] = _strdup(env[i]);
 		}
 	}
 	data->env[i] = NULL;
@@ -85,11 +85,11 @@ void inicialize_data(data_of_program *data, int argc, char *argv[], char **env)
 	}
 }
 /**
- * sisifo - its a infinite loop that shows the prompt
+ * infinite - its a infinite loop that shows the prompt
  * @prompt: prompt to be printed
  * @data: its a infinite loop that shows the prompt
  */
-void sisifo(char *prompt, data_of_program *data)
+void infinite(char *prompt, data_of_program *data)
 {
 	int error_code = 0, string_len = 0;
 
@@ -106,11 +106,11 @@ void sisifo(char *prompt, data_of_program *data)
 		if (string_len >= 1)
 		{
 			expand_alias(data);
-			expand_variables(data);
+			expand_vars(data);
 			tokenize(data);
 			if (data->tokens[0])
-			{ /* if a text is given to prompt, execute */
-				error_code = execute(data);
+			{ /* if a text is given to prompt, exec */
+				error_code = exec(data);
 				if (error_code != 0)
 					_print_error(error_code, data);
 			}

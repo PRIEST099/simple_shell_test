@@ -3,11 +3,11 @@
 int check_file(char *full_path);
 
 /**
- * find_program - find a program in path
+ * find_prog - find a program in path
  * @data: a pointer to the program's data
  * Return: 0 if success, errcode otherwise
  */
-int find_program(data_of_program *data)
+int find_prog(data_of_program *data)
 {
 	int i = 0, ret_code = 0;
 	char **directories;
@@ -20,7 +20,7 @@ int find_program(data_of_program *data)
 		return (check_file(data->command_name));
 
 	free(data->tokens[0]);
-	data->tokens[0] = str_concat(str_duplicate("/"), data->command_name);
+	data->tokens[0] = _strcat(_strdup("/"), data->command_name);
 	if (!data->tokens[0])
 		return (2);
 
@@ -33,13 +33,13 @@ int find_program(data_of_program *data)
 	}
 	for (i = 0; directories[i]; i++)
 	{/* appends the function_name to path */
-		directories[i] = str_concat(directories[i], data->tokens[0]);
+		directories[i] = _strcat(directories[i], data->tokens[0]);
 		ret_code = check_file(directories[i]);
 		if (ret_code == 0 || ret_code == 126)
 		{/* the file was found, is not a directory and has execute permisions*/
 			errno = 0;
 			free(data->tokens[0]);
-			data->tokens[0] = str_duplicate(directories[i]);
+			data->tokens[0] = _strdup(directories[i]);
 			free_array_of_pointers(directories);
 			return (ret_code);
 		}
@@ -69,7 +69,7 @@ char **tokenize_path(data_of_program *data)
 		return (NULL);
 	}
 
-	PATH = str_duplicate(PATH);
+	PATH = _strdup(PATH);
 
 	/* find the number of directories in the PATH */
 	for (i = 0; PATH[i]; i++)
@@ -83,10 +83,10 @@ char **tokenize_path(data_of_program *data)
 
 	/*tokenize and duplicate each token of path*/
 	i = 0;
-	tokens[i] = str_duplicate(_strtok(PATH, ":"));
+	tokens[i] = _strdup(_strtok(PATH, ":"));
 	while (tokens[i++])
 	{
-		tokens[i] = str_duplicate(_strtok(NULL, ":"));
+		tokens[i] = _strdup(_strtok(NULL, ":"));
 	}
 
 	free(PATH);

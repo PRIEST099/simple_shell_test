@@ -37,11 +37,11 @@ int builtin_cd(data_of_program *data)
 
 	if (data->tokens[1])
 	{
-		if (str_compare(data->tokens[1], "-", 0))
+		if (_strcmp(data->tokens[1], "-", 0))
 		{
 			dir_old = env_get_key("OLDPWD", data);
 			if (dir_old)
-				error_code = set_work_directory(data, dir_old);
+				error_code = set_working_directory(data, dir_old);
 			_print(env_get_key("PWD", data));
 			_print("\n");
 
@@ -49,7 +49,7 @@ int builtin_cd(data_of_program *data)
 		}
 		else
 		{
-			return (set_work_directory(data, data->tokens[1]));
+			return (set_working_directory(data, data->tokens[1]));
 		}
 	}
 	else
@@ -57,25 +57,25 @@ int builtin_cd(data_of_program *data)
 		if (!dir_home)
 			dir_home = getcwd(old_dir, 128);
 
-		return (set_work_directory(data, dir_home));
+		return (set_working_directory(data, dir_home));
 	}
 	return (0);
 }
 
 /**
- * set_work_directory - set the work directory
+ * set_working_directory - set the work directory
  * @data: struct for the program's data
  * @new_dir: path to be set as work directory
  * Return: zero if sucess, or other number if its declared in the arguments
  */
-int set_work_directory(data_of_program *data, char *new_dir)
+int set_working_directory(data_of_program *data, char *new_dir)
 {
 	char old_dir[128] = {0};
 	int err_code = 0;
 
 	getcwd(old_dir, 128);
 
-	if (!str_compare(old_dir, new_dir, 0))
+	if (!_strcmp(old_dir, new_dir, 0))
 	{
 		err_code = chdir(new_dir);
 		if (err_code == -1)
@@ -122,8 +122,8 @@ int builtin_help(data_of_program *data)
 	for (i = 0; mensajes[i]; i++)
 	{
 		/*print the length of string */
-		length = str_length(data->tokens[1]);
-		if (str_compare(data->tokens[1], mensajes[i], length))
+		length = _strlen(data->tokens[1]);
+		if (_strcmp(data->tokens[1], mensajes[i], length))
 		{
 			_print(mensajes[i] + length + 1);
 			return (1);

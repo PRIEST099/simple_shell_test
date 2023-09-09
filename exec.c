@@ -1,10 +1,10 @@
 #include "shell.h"
 /**
- * execute - execute a command with its entire path variables.
+ * exec - exec a command with its entire path variables.
  * @data: a pointer to the program's data
  * Return: If sucess returns zero, otherwise, return -1.
  */
-int execute(data_of_program *data)
+int exec(data_of_program *data)
 {
 	int retval = 0, status;
 	pid_t pidd;
@@ -15,7 +15,7 @@ int execute(data_of_program *data)
 		return (retval);
 
 	/* check for program file system */
-	retval = find_program(data);
+	retval = find_prog(data);
 	if (retval)
 	{/* if program not found */
 		return (retval);
@@ -29,7 +29,7 @@ int execute(data_of_program *data)
 			exit(EXIT_FAILURE);
 		}
 		if (pidd == 0)
-		{/* I am the child process, I execute the program*/
+		{/* I am the child process, I exec the program*/
 			retval = execve(data->tokens[0], data->tokens, data->env);
 			if (retval == -1) /* if error when execve*/
 				perror(data->command_name), exit(EXIT_FAILURE);
