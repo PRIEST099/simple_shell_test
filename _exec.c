@@ -6,32 +6,32 @@
  */
 int exec(data_of_program *data)
 {
-	int retval = 0, status;
-	pid_t pidd;
+	int return_value = 0, status;
+	pid_t pid;
 
 	/* check for program in built ins */
-	retval = builtins_list(data);
-	if (retval != -1)/* if program was found in built ins */
-		return (retval);
+	return_value = builtins_list(data);
+	if (return_value != -1)/* if program was found in built ins */
+		return (return_value);
 
 	/* check for program file system */
-	retval = find_prog(data);
-	if (retval)
+	return_value = find_prog(data);
+	if (return_value)
 	{/* if program not found */
-		return (retval);
+		return (return_value);
 	}
 	else
 	{/* if program was found */
-		pidd = fork(); /* create a child process */
-		if (pidd == -1)
+		pid = fork(); /* create a child process */
+		if (pid == -1)
 		{ /* if the fork call failed */
 			perror(data->command_name);
 			exit(EXIT_FAILURE);
 		}
-		if (pidd == 0)
+		if (pid == 0)
 		{/* I am the child process, I exec the program*/
-			retval = execve(data->tokens[0], data->tokens, data->env);
-			if (retval == -1) /* if error when execve*/
+			return_value = execve(data->tokens[0], data->tokens, data->env);
+			if (return_value == -1) /* if error when execve*/
 				perror(data->command_name), exit(EXIT_FAILURE);
 		}
 		else

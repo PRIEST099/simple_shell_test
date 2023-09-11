@@ -11,22 +11,22 @@
 void long_to_string(long number, char *string, int base)
 {
 	int index = 0, inNegative = 0;
-	long cociente = number;
+	long reminder = number;
 	char letters[] = {"0123456789abcdef"};
 
-	if (cociente == 0)
+	if (reminder == 0)
 		string[index++] = '0';
 
 	if (string[0] == '-')
 		inNegative = 1;
 
-	while (cociente)
+	while (reminder)
 	{
-		if (cociente < 0)
-			string[index++] = letters[-(cociente % base)];
+		if (reminder < 0)
+			string[index++] = letters[-(reminder % base)];
 		else
-			string[index++] = letters[cociente % base];
-		cociente /= base;
+			string[index++] = letters[reminder % base];
+		reminder /= base;
 	}
 	if (inNegative)
 		string[index++] = '-';

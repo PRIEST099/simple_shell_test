@@ -10,7 +10,7 @@ int check_file(char *full_path);
 int find_prog(data_of_program *data)
 {
 	int i = 0, ret_code = 0;
-	char **directories;
+	char **dirs;
 
 	if (!data->command_name)
 		return (2);
@@ -24,41 +24,41 @@ int find_prog(data_of_program *data)
 	if (!data->tokens[0])
 		return (2);
 
-	directories = tokenize_path(data);/* search in the PATH */
+	dirs = tokenize_path(data);/* search in the PATH */
 
-	if (!directories || !directories[0])
+	if (!dirs || !dirs[0])
 	{
 		errno = 127;
 		return (127);
 	}
-	for (i = 0; directories[i]; i++)
+	for (i = 0; dirs[i]; i++)
 	{/* appends the function_name to path */
-		directories[i] = _strcat(directories[i], data->tokens[0]);
-		ret_code = check_file(directories[i]);
+		dirs[i] = _strcat(dirs[i], data->tokens[0]);
+		ret_code = check_file(dirs[i]);
 		if (ret_code == 0 || ret_code == 126)
 		{/* the file was found, is not a directory and has execute permisions*/
 			errno = 0;
 			free(data->tokens[0]);
-			data->tokens[0] = _strdup(directories[i]);
-			free_array_of_pointers(directories);
+			data->tokens[0] = _strdup(dirs[i]);
+			free_array_of_pointers(dirs);
 			return (ret_code);
 		}
 	}
 	free(data->tokens[0]);
 	data->tokens[0] = NULL;
-	free_array_of_pointers(directories);
+	free_array_of_pointers(dirs);
 	return (ret_code);
 }
 
 /**
- * tokenize_path - Tokenize path in the directories.
+ * tokenize_path - Tokenize path in the dirs.
  * @data: A pointer to program's data
- * Return: Path array of directories
+ * Return: Path array of dirs
  */
 char **tokenize_path(data_of_program *data)
 {
 	int i = 0;
-	int counter_directories = 2;
+	int count_dirs = 2;
 	char **tokens = NULL;
 	char *PATH;
 
@@ -71,15 +71,15 @@ char **tokenize_path(data_of_program *data)
 
 	PATH = _strdup(PATH);
 
-	/* find the number of directories in the PATH */
+	/* find the number of dirs in the PATH */
 	for (i = 0; PATH[i]; i++)
 	{
 		if (PATH[i] == ':')
-			counter_directories++;
+			count_dirs++;
 	}
 
 	/* reserve space for the array of pointers */
-	tokens = malloc(sizeof(char *) * counter_directories);
+	tokens = malloc(sizeof(char *) * count_dirs);
 
 	/*tokenize and duplicate each token of path*/
 	i = 0;

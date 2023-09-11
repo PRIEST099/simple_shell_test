@@ -33,7 +33,7 @@ int builtin_cd(data_of_program *data)
 {
 	char *dir_home = env_get_key("HOME", data), *dir_old = NULL;
 	char old_dir[128] = {0};
-	int error_code = 0;
+	int err_code = 0;
 
 	if (data->tokens[1])
 	{
@@ -41,11 +41,11 @@ int builtin_cd(data_of_program *data)
 		{
 			dir_old = env_get_key("OLDPWD", data);
 			if (dir_old)
-				error_code = set_working_directory(data, dir_old);
+				err_code = set_working_directory(data, dir_old);
 			_print(env_get_key("PWD", data));
 			_print("\n");
 
-			return (error_code);
+			return (err_code);
 		}
 		else
 		{
@@ -97,14 +97,14 @@ int set_working_directory(data_of_program *data, char *new_dir)
 int builtin_help(data_of_program *data)
 {
 	int i, length = 0;
-	char *mensajes[6] = {NULL};
+	char *infos[6] = {NULL};
 
-	mensajes[0] = HELP_MSG;
+	infos[0] = HELP_MSG;
 
 	/* validate args */
 	if (data->tokens[1] == NULL)
 	{
-		_print(mensajes[0] + 6);
+		_print(infos[0] + 6);
 		return (1);
 	}
 	if (data->tokens[2] != NULL)
@@ -113,19 +113,19 @@ int builtin_help(data_of_program *data)
 		perror(data->command_name);
 		return (5);
 	}
-	mensajes[1] = HELP_EXIT_MSG;
-	mensajes[2] = HELP_ENV_MSG;
-	mensajes[3] = HELP_SETENV_MSG;
-	mensajes[4] = HELP_UNSETENV_MSG;
-	mensajes[5] = HELP_CD_MSG;
+	infos[1] = HELP_EXIT_MSG;
+	infos[2] = HELP_ENV_MSG;
+	infos[3] = HELP_SETENV_MSG;
+	infos[4] = HELP_UNSETENV_MSG;
+	infos[5] = HELP_CD_MSG;
 
-	for (i = 0; mensajes[i]; i++)
+	for (i = 0; infos[i]; i++)
 	{
 		/*print the length of string */
 		length = _strlen(data->tokens[1]);
-		if (_strcmp(data->tokens[1], mensajes[i], length))
+		if (_strcmp(data->tokens[1], infos[i], length))
 		{
-			_print(mensajes[i] + length + 1);
+			_print(infos[i] + length + 1);
 			return (1);
 		}
 	}

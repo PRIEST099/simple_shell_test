@@ -9,7 +9,7 @@
 int main(int argc, char *argv[], char *env[])
 {
 	data_of_program data_struct = {NULL}, *data = &data_struct;
-	char *prompt = "";
+	char *msg_terminal = "";
 
 	init_data(data, argc, argv, env);
 
@@ -18,15 +18,15 @@ int main(int argc, char *argv[], char *env[])
 	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO) && argc == 1)
 	{/* We are in the terminal, interactive mode */
 		errno = 2;/*???????*/
-		prompt = PROMPT;
+		msg_terminal = PROMPT;
 	}
 	errno = 0;
-	infinite(prompt, data);
+	infinite(msg_terminal, data);
 	return (0);
 }
 
 /**
- * manag_eof - Display prompt on a newline
+ * manag_eof - Display msg_terminal on a newline
  * when the signal SIGINT (ctrl + c) is send to the program
  * @UNUSED: an option of the prototype.
  */
@@ -86,33 +86,33 @@ void init_data(data_of_program *data, int argc, char *argv[], char **env)
 }
 /**
  * infinite - Prompt loop
- * @prompt: Printed prompt
+ * @msg_terminal: Printed msg_terminal
  * @data: Prompt loop displays
  */
-void infinite(char *prompt, data_of_program *data)
+void infinite(char *msg_terminal, data_of_program *data)
 {
-	int error_code = 0, string_len = 0;
+	int err_code = 0, string_length = 0;
 
 	while (++(data->exec_counter))
 	{
-		_print(prompt);
-		error_code = string_len = _getline(data);
+		_print(msg_terminal);
+		err_code = string_length = _getline(data);
 
-		if (error_code == EOF)
+		if (err_code == EOF)
 		{
 			free_all_data(data);
 			exit(errno); /* if EOF is the fisrt Char of string, exit*/
 		}
-		if (string_len >= 1)
+		if (string_length >= 1)
 		{
 			expand_alias(data);
 			expand_vars(data);
 			tokenize(data);
 			if (data->tokens[0])
-			{ /* if a text is given to prompt, exec */
-				error_code = exec(data);
-				if (error_code != 0)
-					_print_error(error_code, data);
+			{ /* if a text is given to msg_terminal, exec */
+				err_code = exec(data);
+				if (err_code != 0)
+					_print_error(err_code, data);
 			}
 			free_recurrent_data(data);
 		}

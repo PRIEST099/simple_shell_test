@@ -9,7 +9,7 @@ char *_strtok(char *line, char *delim)
 {
 	int j;
 	static char *str;
-	char *copystr;
+	char *_cpystr;
 
 	if (line != NULL)
 		str = line;
@@ -23,8 +23,8 @@ char *_strtok(char *line, char *delim)
 		if (delim[j] == '\0')
 			break;
 	}
-	copystr = str;
-	if (*copystr == '\0')
+	_cpystr = str;
+	if (*_cpystr == '\0')
 		return (NULL);
 	for (; *str != '\0'; str++)
 	{
@@ -34,9 +34,9 @@ char *_strtok(char *line, char *delim)
 			{
 				*str = '\0';
 				str++;
-				return (copystr);
+				return (_cpystr);
 			}
 		}
 	}
-	return (copystr);
+	return (_cpystr);
 }

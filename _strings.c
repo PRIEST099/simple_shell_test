@@ -25,7 +25,7 @@ int _strlen(char *string)
  */
 char *_strdup(char *string)
 {
-	char *result;
+	char *res;
 	int length, i;
 
 	if (string == NULL)
@@ -33,9 +33,9 @@ char *_strdup(char *string)
 
 	length = _strlen(string) + 1;
 
-	result = malloc(sizeof(char) * length);
+	res = malloc(sizeof(char) * length);
 
-	if (result == NULL)
+	if (res == NULL)
 	{
 		errno = ENOMEM;
 		perror("Error");
@@ -43,10 +43,10 @@ char *_strdup(char *string)
 	}
 	for (i = 0; i < length ; i++)
 	{
-		result[i] = string[i];
+		res[i] = string[i];
 	}
 
-	return (result);
+	return (res);
 }
 
 /**
@@ -58,7 +58,7 @@ char *_strdup(char *string)
  */
 int _strcmp(char *string1, char *string2, int number)
 {
-	int iterator;
+	int counter;
 
 	if (string1 == NULL && string2 == NULL)
 		return (1);
@@ -70,18 +70,18 @@ int _strcmp(char *string1, char *string2, int number)
 	{
 		if (_strlen(string1) != _strlen(string2))
 			return (0);
-		for (iterator = 0; string1[iterator]; iterator++)
+		for (counter = 0; string1[counter]; counter++)
 		{
-			if (string1[iterator] != string2[iterator])
+			if (string1[counter] != string2[counter])
 				return (0);
 		}
 		return (1);
 	}
 	else /* if there is a number of chars to be compared */
 	{
-		for (iterator = 0; iterator < number ; iterator++)
+		for (counter = 0; counter < number ; counter++)
 		{
-			if (string1[iterator] != string2[iterator])
+			if (string1[counter] != string2[counter])
 			return (0);
 		}
 		return (1);
@@ -97,7 +97,7 @@ int _strcmp(char *string1, char *string2, int number)
  */
 char *_strcat(char *string1, char *string2)
 {
-	char *result;
+	char *res;
 	int length1 = 0, length2 = 0;
 
 	if (string1 == NULL)
@@ -108,8 +108,8 @@ char *_strcat(char *string1, char *string2)
 		string2 = "";
 	length2 = _strlen(string2);
 
-	result = malloc(sizeof(char) * (length1 + length2 + 1));
-	if (result == NULL)
+	res = malloc(sizeof(char) * (length1 + length2 + 1));
+	if (res == NULL)
 	{
 		errno = ENOMEM;
 		perror("Error");
@@ -118,18 +118,18 @@ char *_strcat(char *string1, char *string2)
 
 	/* copy of string1 */
 	for (length1 = 0; string1[length1] != '\0'; length1++)
-		result[length1] = string1[length1];
+		res[length1] = string1[length1];
 	free(string1);
 
 	/* copy of string2 */
 	for (length2 = 0; string2[length2] != '\0'; length2++)
 	{
-		result[length1] = string2[length2];
+		res[length1] = string2[length2];
 		length1++;
 	}
 
-	result[length1] = '\0';
-	return (result);
+	res[length1] = '\0';
+	return (res);
 }
 
 
