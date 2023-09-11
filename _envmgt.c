@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * env_get_key - gets the value of an environment variable
- * @key: the environment variable of interest
- * @data: struct of the program's data
+ * env_get_key - Fetch the value of an env variable
+ * @key: Focal env variable
+ * @data: A struct containing the program's data.
  * Return: a pointer to the value of the variable or NULL if it doesn't exist
  */
 char *env_get_key(char *key, data_of_program *data)
@@ -30,12 +30,12 @@ char *env_get_key(char *key, data_of_program *data)
 }
 
 /**
- * env_set_key - overwrite the value of the environment variable
+ * env_set_key - overwrite the value of the env variable
  * or create it if does not exist.
- * @key: name of the variable to set
- * @value: new value
- * @data: struct of the program's data
- * Return: 1 if the parameters are NULL, 2 if there is an erroror 0 if sucess.
+ * @key: Name of the variable to be set
+ * @value: New value
+ * @data: A struct containing the program's data.
+ * Return: 1 if the parameters are NULL, 2 on error or 0 on success.
  */
 
 int env_set_key(char *key, char *value, data_of_program *data)
@@ -73,10 +73,10 @@ int env_set_key(char *key, char *value, data_of_program *data)
 }
 
 /**
- * env_remove_key - remove a key from the environment
- * @key: the key to remove
- * @data: the sructure of the program's data
- * Return: 1 if the key was removed, 0 if the key does not exist;
+ * env_remove_key - Remove key from the env.
+ * @key: Key to be removed.
+ * @data: A struct containing the program's data.
+ * Return: 1 if the key was removed or 0 if the key does not exist;
  */
 int env_remove_key(char *key, data_of_program *data)
 {
@@ -110,10 +110,9 @@ int env_remove_key(char *key, data_of_program *data)
 	return (0);
 }
 
-
 /**
- * print_environ - prints the current environ
- * @data: struct for the program's data
+ * print_environ - Display the current env
+ * @data: A struct containing the program's data.
  * Return: nothing
  */
 void print_environ(data_of_program *data)

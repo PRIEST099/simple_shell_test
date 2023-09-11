@@ -3,9 +3,9 @@
 int check_file(char *full_path);
 
 /**
- * find_prog - find a program in path
- * @data: a pointer to the program's data
- * Return: 0 if success, errcode otherwise
+ * find_prog - This finds a program in the path.
+ * @data: A pointer to program's data.
+ * Return: 0 on success, otherwise error code is returned.
  */
 int find_prog(data_of_program *data)
 {
@@ -51,9 +51,9 @@ int find_prog(data_of_program *data)
 }
 
 /**
- * tokenize_path - tokenize the path in directories
- * @data: a pointer to the program's data
- * Return: array of path directories
+ * tokenize_path - Tokenize path in the directories.
+ * @data: A pointer to program's data
+ * Return: Path array of directories
  */
 char **tokenize_path(data_of_program *data)
 {
@@ -96,9 +96,9 @@ char **tokenize_path(data_of_program *data)
 }
 
 /**
- * check_file - checks if exists a file, if it is not a dairectory and
- * if it has excecution permisions for permisions.
- * @full_path: pointer to the full file name
+ * check_file - checks if a file exist, not a directory and
+ * it has excecution permissions.
+ * @full_path: A pointer to the full filename.
  * Return: 0 on success, or error code if it exists.
  */
 int check_file(char *full_path)

@@ -1,8 +1,8 @@
 #include "shell.h"
 
 /**
- * _strlen - returns the length of a string.
- * @string: pointer to string.
+ * _strlen - String length.
+ * @string: A pointer to string.
  * Return: length of string.
  */
 int _strlen(char *string)
@@ -19,9 +19,9 @@ int _strlen(char *string)
 }
 
 /**
- * _strdup - duplicates an string
- * @string: String to be copied
- * Return: pointer to the array
+ * _strdup - Duplicates a string
+ * @string: String to be duplicated
+ * Return: a pointer to the array
  */
 char *_strdup(char *string)
 {
@@ -51,10 +51,10 @@ char *_strdup(char *string)
 
 /**
  * _strcmp - Compare two strings
- * @string1: String one, or the shorter
- * @string2: String two, or the longer
- * @number: number of characters to be compared, 0 if infinite
- * Return: 1 if the strings are equals,0 if the strings are different
+ * @string1: String 2
+ * @string2: String 1
+ * @number: The number of characters to be compared, 0 if infinite
+ * Return: 1 if equalates ,0 if differs
  */
 int _strcmp(char *string1, char *string2, int number)
 {
@@ -89,11 +89,11 @@ int _strcmp(char *string1, char *string2, int number)
 }
 
 /**
- * _strcat - concatenates two strings.
- * @string1: String to be concatenated
- * @string2: String to be concatenated
+ * _strcat - concatenates 2 strings.
+ * @string1: String 1
+ * @string2: String 2
  *
- * Return: pointer to the array
+ * Return: A pointer to the array
  */
 char *_strcat(char *string1, char *string2)
 {
@@ -136,7 +136,7 @@ char *_strcat(char *string1, char *string2)
 /**
  * str_reverse - reverses a string.
  *
- * @string: pointer to string.
+ * @string: A pointer to string.
  * Return: void.
  */
 void str_reverse(char *string)

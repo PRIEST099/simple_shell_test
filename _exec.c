@@ -1,8 +1,8 @@
 #include "shell.h"
 /**
- * exec - exec a command with its entire path variables.
- * @data: a pointer to the program's data
- * Return: If sucess returns zero, otherwise, return -1.
+ * exec - Execute a command.
+ * @data: A pointer to the program's data.
+ * Return: 0 on success, otherwise -1.
  */
 int exec(data_of_program *data)
 {

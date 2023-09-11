@@ -57,7 +57,7 @@ typedef struct builtins
 /************* MAIN FUNCTIONS *************/
 
 
-/*========  shell.c  ========*/
+/*========  _shell.c  ========*/
 
 /* Initializes the struct with the info of the program */
 void init_data(data_of_program *data, int arc, char *argv[], char **env);
@@ -78,7 +78,7 @@ int _getline(data_of_program *data);
 int check_logic_ops(char *array_commands[], int i, char array_operators[]);
 
 
-/*======== expansions.c ========*/
+/*======== _expand.c ========*/
 
 /* expand variables */
 void expand_vars(data_of_program *data);
@@ -90,7 +90,7 @@ void expand_alias(data_of_program *data);
 int buffer_addition(char *buffer, char *str_to_add);
 
 
-/*======== str_tok.c ========*/
+/*======== _strtok.c ========*/
 
 /* Separate the string in tokens using a designed delimiter */
 void tokenize(data_of_program *data);
@@ -99,19 +99,19 @@ void tokenize(data_of_program *data);
 char *_strtok(char *line, char *delim);
 
 
-/*======== exec.c ========*/
+/*======== _exec.c ========*/
 
 /* Execute a command with its entire path */
 int exec(data_of_program *data);
 
 
-/*======== builtins_list.c ========*/
+/*======== _lists.c ========*/
 
 /* If match a builtin, executes it */
 int builtins_list(data_of_program *data);
 
 
-/*======== find_in_path.c ========*/
+/*======== _pathfinder.c ========*/
 
 /* Creates an array of the path directories */
 char **tokenize_path(data_of_program *data);
@@ -123,7 +123,7 @@ int find_prog(data_of_program *data);
 /************** HELPERS FOR MEMORY MANAGEMENT **************/
 
 
-/*======== helpers_free.c ========*/
+/*======== _frees.c ========*/
 
 /* Frees the memory for directories */
 void free_array_of_pointers(char **directories);
@@ -138,7 +138,7 @@ void free_all_data(data_of_program *data);
 /************** BUILTINS **************/
 
 
-/*======== builtins_more.c ========*/
+/*======== _more.c ========*/
 
 /* Close the shell */
 int builtin_exit(data_of_program *data);
@@ -156,7 +156,7 @@ int builtin_help(data_of_program *data);
 int builtin_alias(data_of_program *data);
 
 
-/*======== builtins_env.c ========*/
+/*======== _env.c ========*/
 
 /* Shows the environment where the shell runs */
 int builtin_env(data_of_program *data);
@@ -171,7 +171,7 @@ int builtin_unset_env(data_of_program *data);
 /************** HELPERS FOR ENVIRONMENT VARIABLES MANAGEMENT **************/
 
 
-/*======== env_management.c ========*/
+/*======== envmgt.c ========*/
 
 /* Gets the value of an environment variable */
 char *env_get_key(char *name, data_of_program *data);
@@ -189,7 +189,7 @@ void print_environ(data_of_program *data);
 /************** HELPERS FOR PRINTING **************/
 
 
-/*======== helpers_print.c ========*/
+/*======== _printers.c ========*/
 
 /* Prints a string in the standar output */
 int _print(char *string);
@@ -204,7 +204,7 @@ int _print_error(int errorcode, data_of_program *data);
 /************** HELPERS FOR STRINGS MANAGEMENT **************/
 
 
-/*======== helpers_string.c ========*/
+/*======== _strings.c ========*/
 
 /* Counts the number of characters of a string */
 int _strlen(char *string);
@@ -222,7 +222,7 @@ char *_strcat(char *string1, char *string2);
 void str_reverse(char *string);
 
 
-/*======== helpers_numbers.c ========*/
+/*======== _numbers.c ========*/
 
 /* Cast from int to string */
 void long_to_string(long number, char *string, int base);
@@ -234,7 +234,7 @@ int _atoi(char *s);
 int count_characters(char *string, char *character);
 
 
-/*======== alias_management.c ========*/
+/*======== _alias.c ========*/
 
 /* print the list of alias */
 int print_alias(data_of_program *data, char *alias);

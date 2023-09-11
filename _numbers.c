@@ -1,10 +1,10 @@
 #include "shell.h"
 
 /**
- * long_to_string - converts a number to a string.
- * @number: number to be converten in an string.
- * @string: buffer to save the number as string.
- * @base: base to convert number
+ * long_to_string - This converts number to string.
+ * @number: A number to be converted.
+ * @string: A buffer to store the number as string.
+ * @base: A base to convert the number
  *
  * Return: Nothing.
  */
@@ -37,9 +37,9 @@ void long_to_string(long number, char *string, int base)
 
 
 /**
- * _atoi - convert a string to an integer.
+ * _atoi - converts string to an int.
  *
- * @s: pointer to str origen.
+ * @s: A pointer to original string.
  * Return: int of string or 0.
  */
 int _atoi(char *s)
@@ -67,10 +67,10 @@ int _atoi(char *s)
 }
 
 /**
- * count_characters - count the coincidences of character in string.
+ * count_characters - This counts the coincidences of chars in string.
  *
- * @string: pointer to str origen.
- * @character: string with  chars to be counted
+ * @string: A pointer to original string.
+ * @character: the string with chars to be counted.
  * Return: int of string or 0.
  */
 int count_characters(char *string, char *character)

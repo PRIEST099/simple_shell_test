@@ -1,10 +1,10 @@
 #include "shell.h"
 /**
- * main - initialize the variables of the program
- * @argc: number of values received from the command line
- * @argv: values received from the command line
- * @env: number of values received from the command line
- * Return: zero on succes.
+ * main - Initialize the program variables.
+ * @argc: Number of values received from the cmdline
+ * @argv: values received from the cmdline
+ * @env: Shell environment
+ * Return: 0 on succes.
  */
 int main(int argc, char *argv[], char *env[])
 {
@@ -26,9 +26,9 @@ int main(int argc, char *argv[], char *env[])
 }
 
 /**
- * manag_eof - print the prompt in a new line
+ * manag_eof - Display prompt on a newline
  * when the signal SIGINT (ctrl + c) is send to the program
- * @UNUSED: option of the prototype
+ * @UNUSED: an option of the prototype.
  */
 void manag_eof(int opr UNUSED)
 {
@@ -37,11 +37,11 @@ void manag_eof(int opr UNUSED)
 }
 
 /**
- * init_data - initializes the struct with the info of the program
- * @data: pointer to the structure of data
- * @argv: array of arguments pased to the program execution
- * @env: environ pased to the program execution
- * @argc: number of values received from the command line
+ * init_data - Initializes program info into the structure
+ * @data: A pointer to data structure
+ * @argv: An array of args passed to program for execution.
+ * @env: An env passed to the program for execution
+ * @argc: The number of values received from the cmdline
  */
 void init_data(data_of_program *data, int argc, char *argv[], char **env)
 {
@@ -85,9 +85,9 @@ void init_data(data_of_program *data, int argc, char *argv[], char **env)
 	}
 }
 /**
- * infinite - its a infinite loop that shows the prompt
- * @prompt: prompt to be printed
- * @data: its a infinite loop that shows the prompt
+ * infinite - Prompt loop
+ * @prompt: Printed prompt
+ * @data: Prompt loop displays
  */
 void infinite(char *prompt, data_of_program *data)
 {
